@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ComputerMonitorStockManager.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComputerMonitorStockManager.Controllers
 {
@@ -12,7 +13,12 @@ namespace ComputerMonitorStockManager.Controllers
     [ApiController]
     public class MonitorController : ControllerBase
     {
-        
+        [Route("errorRoute")]
+        [HttpGet]
+        public Task<string> ErrorExample()
+        {
+            return null;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<Monitors>> GetMonitors()

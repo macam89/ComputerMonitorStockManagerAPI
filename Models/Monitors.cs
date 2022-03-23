@@ -15,5 +15,6 @@ namespace ComputerMonitorStockManager.Models
         public string ManufactureName { get; set; }
         public string Resolution { get; set; }
         public bool IsFullHD { get; set; }
+        
     }
 }

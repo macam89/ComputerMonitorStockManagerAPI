@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\VLACA\\source\\repos\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj": {}
+    "C:\\Users\\VLACA\\GIT\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\VLACA\\source\\repos\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj": {
+    "C:\\Users\\VLACA\\GIT\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\VLACA\\source\\repos\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj",
+        "projectUniqueName": "C:\\Users\\VLACA\\GIT\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj",
         "projectName": "ComputerMonitorStockManager",
-        "projectPath": "C:\\Users\\VLACA\\source\\repos\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj",
+        "projectPath": "C:\\Users\\VLACA\\GIT\\ComputerMonitorStockManager\\ComputerMonitorStockManager.csproj",
         "packagesPath": "C:\\Users\\VLACA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\VLACA\\source\\repos\\ComputerMonitorStockManager\\obj\\",
+        "outputPath": "C:\\Users\\VLACA\\GIT\\ComputerMonitorStockManager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\VLACA\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,9 +40,21 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Core": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[4.14.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
             }
           },
           "imports": [
@@ -63,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
         }
       }
     }

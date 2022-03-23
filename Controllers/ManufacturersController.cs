@@ -24,7 +24,7 @@ namespace ComputerMonitorStockManager.Controllers
             return Ok(Startup.manufacurers);
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("mojaruta/{name}")]
         public ActionResult<Manufacturers> GetName(string name)
         {
             var current = Startup.manufacurers.FirstOrDefault(m => m.Name.ToUpper() == name.ToUpper());
@@ -37,6 +37,8 @@ namespace ComputerMonitorStockManager.Controllers
         [HttpPost]
         public ActionResult NewManufacturer([FromBody] Manufacturers m)
         {
+            
+
             var badM = Startup.manufacurers.Where(b => b.Name.ToUpper() == m.Name.ToUpper()).FirstOrDefault();
 
             if (badM != null)

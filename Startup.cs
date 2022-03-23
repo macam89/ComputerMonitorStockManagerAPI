@@ -12,6 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ComputerMonitorStockManager.Models;
+using ComputerMonitorStockManager.Middlewares;
+using Microsoft.AspNetCore.Authorization;
+using ComputerMonitorStockManager.Logging;
+using NLog;
 
 namespace ComputerMonitorStockManager
 {
@@ -29,6 +33,7 @@ namespace ComputerMonitorStockManager
         {
 
             services.AddControllers();
+            services.AddSingleton<ILogging, LoggingNLog>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ComputerMonitorStockManager", Version = "v1" });
@@ -36,7 +41,7 @@ namespace ComputerMonitorStockManager
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogging logger)
         {
             if (env.IsDevelopment())
             {
@@ -47,7 +52,11 @@ namespace ComputerMonitorStockManager
 
             app.UseHttpsRedirection();
 
+            app.ExceptionHandler(logger);
+
             app.UseRouting();
+
+            app.UseMiddleware<BasicAuthMiddleware>("");
 
             app.UseAuthorization();
 
