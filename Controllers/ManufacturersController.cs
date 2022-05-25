@@ -1,91 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ComputerMonitorStockManager.Models;
+using Microsoft.EntityFrameworkCore;
+using ComputerMonitorStockManager.Interfaces;
 
 
 namespace ComputerMonitorStockManager.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ManufacturersController : ControllerBase
     {
+        private readonly IManufacturersRepository _manufacturers;
+        private readonly IMonitorsRepository _monitors;
+
+        public ManufacturersController(IManufacturersRepository manufacturers, IMonitorsRepository monitors)
+        {
+            _manufacturers = manufacturers;
+            _monitors = monitors;
+        }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Manufacturers>> GetAll()
+        public ActionResult<IEnumerable<Manufacturers>> GetAllManufacturers()
         {
-            if (!Startup.manufacurers.Any())
+            var allManufacturers = _manufacturers.GetAllManufacturers();
+
+            if (allManufacturers == null)
                 return NotFound();
 
-            return Ok(Startup.manufacurers);
+            return Ok(allManufacturers);
         }
 
-        [HttpGet("mojaruta/{name}")]
-        public ActionResult<Manufacturers> GetName(string name)
+
+        [HttpGet("{id}")]
+        public ActionResult<Manufacturers> GetManufacturerById(int id)
         {
-            var current = Startup.manufacurers.FirstOrDefault(m => m.Name.ToUpper() == name.ToUpper());
-            if (current == null)
+            var manufacturer = _manufacturers.GetManufacturer(id);
+
+            if (manufacturer == null)
                 return NotFound("Manufacturer not found.");
 
-            return Ok(current);
+            return Ok(manufacturer);
         }
 
-        [HttpPost]
-        public ActionResult NewManufacturer([FromBody] Manufacturers m)
+
+        [HttpGet("GetManufacturerByName/{name}")]
+        public ActionResult<Manufacturers> GetManufacturerByName(string name)
         {
-            
+            var manufacturer = _manufacturers.GetManufacturer(name);
 
-            var badM = Startup.manufacurers.Where(b => b.Name.ToUpper() == m.Name.ToUpper()).FirstOrDefault();
+            if (manufacturer == null)
+            {
+                return NotFound("Manufacturer not found.");
+            }
 
-            if (badM != null)
+            return Ok(manufacturer);
+        }
+
+
+        [HttpPost]
+        public ActionResult<Manufacturers> AddNewManufacturer([FromBody] Manufacturers manufacturer)
+        {
+            var newManufacturer = _manufacturers.AddNewManufacturer(manufacturer);
+
+            if (newManufacturer == null)
             {
                 return BadRequest("Manufacturer already exist.");
             }
-            else
-            {
-                Startup.manufacurers.Add(m);
-                return Created("Manufacturer successfully added.", m);
-            }
+
+            return CreatedAtAction("GetManufacturerById", new { id = newManufacturer.ManufacturerID }, newManufacturer);
+
         }
 
-        [HttpPut("{name}")]
-        public ActionResult UpdateManufacture(string name, [FromBody] Manufacturers m)
+
+        [HttpPut("{id}")]
+        public ActionResult<Manufacturers> UpdateManufacturerWithSpecifiedId(int id, Manufacturers manufacturer)
         {
-            var currentM = Startup.manufacurers.Where(c => c.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
-
-            if (currentM != null)
+            var manufacturersExceptUpdatingManufacturer = _manufacturers.GetAllManufacturers().Where(c => c.ManufacturerID != id);
+            var manufacturerWithSameName = _manufacturers.GetManufacturer(manufacturer.Name);
+            if (manufacturersExceptUpdatingManufacturer.Contains(manufacturerWithSameName))
             {
-                currentM.Name = m.Name;
-                currentM.PhoneNumber = m.PhoneNumber;
+                return BadRequest("Manufacturer with that name already exist.");
+            }
 
+            var manufacturerForUpdate = _manufacturers.UpdateManufacturer(id, manufacturer);
+
+            if (manufacturerForUpdate != null)
+            {
                 return NoContent();
             }
             else
             {
                 return NotFound("Manufacturer not found.");
             }
+
         }
 
-        [HttpDelete("{name}")]
-        public async Task<ActionResult> DeleteManufacturer(string name)
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteManufacturerWithSpecifiedId(int id)
         {
-            var mDel = Startup.manufacurers.Where(m => m.Name.ToUpper() == name.ToUpper()).FirstOrDefault();
+            var manufacturer = _manufacturers.GetManufacturer(id);
+            bool deleted = _manufacturers.DeleteManufacturer(id);
 
-            if (mDel != null)
+            if (deleted == true)
             {
-                await Task.FromResult(new MonitorController().DeleteMonitors(name));
-                Startup.manufacurers.Remove(mDel);
-                return NoContent();
+                _monitors.DeleteAllMonitorsOfOneManufacturer(manufacturer.Name);
 
+                return NoContent();
             }
             else
             {
                 return BadRequest("Manufacturer does not exist.");
             }
         }
+
+
     }
 }

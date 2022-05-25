@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace ComputerMonitorStockManager.Logging
 {
     public interface ILogging
@@ -12,4 +8,5 @@ namespace ComputerMonitorStockManager.Logging
         void Debug(string message);
         void Error(string message);
     }
+
 }

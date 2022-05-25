@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ComputerMonitorStockManager.Models;
-using Microsoft.AspNetCore.Authorization;
+using ComputerMonitorStockManager.Interfaces;
 
 namespace ComputerMonitorStockManager.Controllers
 {
@@ -13,6 +12,17 @@ namespace ComputerMonitorStockManager.Controllers
     [ApiController]
     public class MonitorController : ControllerBase
     {
+
+        private readonly IMonitorsRepository _monitors;
+        private readonly IManufacturersRepository _manufacturers;
+
+        public MonitorController(IMonitorsRepository monitors, IManufacturersRepository manufacturers)
+        {
+            _monitors = monitors;
+            _manufacturers = manufacturers;
+        }
+
+
         [Route("errorRoute")]
         [HttpGet]
         public Task<string> ErrorExample()
@@ -20,67 +30,91 @@ namespace ComputerMonitorStockManager.Controllers
             return null;
         }
 
+
         [HttpGet]
-        public ActionResult<IEnumerable<Monitors>> GetMonitors()
+        public ActionResult<IEnumerable<Monitors>> GetAllMonitors()
         {
-            if (!Startup.monitors.Any())
+            var allMonitors = _monitors.GetAllMonitors();
+
+            if (allMonitors == null)
                 return NotFound();
 
-            return Ok(Startup.monitors);
+            return Ok(allMonitors);
         }
 
-        [HttpGet("{model}")]
-        public ActionResult<Monitors> GetMonitor(string model) 
+
+        [HttpGet("{id}")]
+        public ActionResult<Monitors> GetMonitorById(int id)
         {
-            var monitor = Startup.monitors.FirstOrDefault(m => m.Model.ToUpper() == model.ToUpper());
+            var monitor = _monitors.GetMonitor(id);
             if (monitor == null)
-                return NotFound();
+                return NotFound("Monitor not found.");
 
             return Ok(monitor);
         }
 
-        [HttpPost]
-        public ActionResult NewMonitor([FromBody] Monitors monitor)
-        {
-            var goodManufacturer = Startup.manufacurers.Where(g => g.Name.ToUpper() == monitor.ManufactureName.ToUpper()).FirstOrDefault();
-            var badModel = Startup.monitors.Where(b => b.Model.ToUpper() == monitor.Model.ToUpper()).FirstOrDefault();
 
-            if (badModel != null)
-            {
-                return BadRequest("Model already exist.");
-            }
-            else if (goodManufacturer == null)
+        [HttpGet("GetMonitorByModel/{model}")]
+        public ActionResult<Monitors> GetMonitorByModel(string model)
+        {
+            var monitor = _monitors.GetMonitor(model);
+            if (monitor == null)
+                return NotFound("Monitor not found.");
+
+            return Ok(monitor);
+        }
+
+
+        [HttpPost]
+        public ActionResult<Monitors> AddNewMonitor([FromBody] Monitors monitor)
+        {
+            var existingManufacturer = _manufacturers.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
+
+            if (existingManufacturer == null)
             {
                 return BadRequest("Manufacturer does not exist.");
             }
             else
             {
-                Startup.monitors.Add(monitor);
-                return Created("Monitor successfully added.", monitor);
-            }
-        }
+                var newMonitor = _monitors.AddNewMonitor(monitor);
 
-        [HttpPut("{model}")]
-        public ActionResult UpdateMonitor(string model, [FromBody] Monitors monitor)
-        {
-            var currentM = Startup.monitors.Where(c => c.Model.ToUpper() == model.ToUpper()).FirstOrDefault();
-            var goodManufacturer = Startup.manufacurers.Where(g => g.Name.ToUpper() == monitor.ManufactureName.ToUpper()).FirstOrDefault();
-
-            if (currentM != null)
-            {
-                currentM.Model = monitor.Model;
-                currentM.Size = monitor.Size;
-                currentM.Color = monitor.Color;
-                currentM.Price = monitor.Price;
-                currentM.ManufactureName = monitor.ManufactureName;
-                currentM.Resolution = monitor.Resolution;
-                currentM.IsFullHD = monitor.IsFullHD;
-
-                if (goodManufacturer == null)
+                if (newMonitor == null)
                 {
-                    return BadRequest("Manufacturer does not exist.");
+                    return BadRequest("Model already exist.");
                 }
 
+                return CreatedAtAction("GetMonitorById", new { id = newMonitor.MonitorID}, newMonitor);
+            }
+
+        }
+
+
+        [HttpPut("{id}")]
+        public ActionResult<Monitors> UpdateMonitorWithSpecifiedId(int id, Monitors monitor)
+        {
+            var existingMonitor = _monitors.GetMonitor(id);
+            if (existingMonitor == null) 
+            {
+                return NotFound("Monitor not found.");
+            }
+
+            var monitorsExceptUpdatingMonitor = _monitors.GetAllMonitors().Where(c => c.MonitorID != id);
+            var monitorWithSameModel = _monitors.GetMonitor(monitor.Model);
+            if (monitorsExceptUpdatingMonitor.Contains(monitorWithSameModel))
+            {
+                return BadRequest("That model aleady exist.");
+            }
+
+            var manufacturer = _manufacturers.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
+            if (manufacturer == null)
+            {
+                return BadRequest("Manufacturer does not exist.");
+            }
+
+            existingMonitor = _monitors.UpdateMonitor(id, monitor);
+
+            if (existingMonitor != null)
+            {
                 return NoContent();
             }
             else
@@ -89,31 +123,30 @@ namespace ComputerMonitorStockManager.Controllers
             }
         }
 
-        [HttpDelete("DeleteOneMonitor/{model}")]
-        public ActionResult DeleteOneMonitor(string model)
-        {
-            var monitorDel = Startup.monitors.Where(m => m.Model.ToUpper() == model.ToUpper()).FirstOrDefault();
 
-            if (monitorDel != null)
+        [HttpDelete("DeleteMonitorWithSpecifiedId/{id}")]
+        public ActionResult DeleteMonitorWithSpecifiedId(int id)
+        {
+            bool deleted = _monitors.DeleteMonitor(id);
+
+            if (deleted == true)
             {
-                Startup.monitors.Remove(monitorDel);
                 return NoContent();
             }
             else
             {
-                return BadRequest("Model does not exist.");
+                return BadRequest("Monitor does not exist.");
             }
         }
 
-        [HttpDelete("DeleteMonitors/{manufactureName}")]
-        protected internal ActionResult DeleteMonitors(string manufactureName) 
+
+        [HttpDelete("Manufacturer/{manufacturerName}")]
+        protected internal ActionResult DeleteAllMonitorsOfOneManufacturer(string manufacturerName)
         {
-            var monitorsDel = Startup.monitors.Where(md => md.ManufactureName.ToUpper() == manufactureName.ToUpper());
+            bool deleted = _monitors.DeleteAllMonitorsOfOneManufacturer(manufacturerName);
 
-            if (monitorsDel.Any())
+            if (deleted == true)
             {
-
-                Startup.monitors.RemoveAll(monitorsDel => monitorsDel.ManufactureName.ToUpper() == manufactureName.ToUpper());
                 return NoContent();
             }
             else
@@ -121,6 +154,7 @@ namespace ComputerMonitorStockManager.Controllers
                 return BadRequest("Manufacturer does not exist.");
             }
         }
+
 
     }
 }

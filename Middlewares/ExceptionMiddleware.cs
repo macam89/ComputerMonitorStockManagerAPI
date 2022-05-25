@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using ComputerMonitorStockManager.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+
 
 namespace ComputerMonitorStockManager.Middlewares
 {
@@ -35,5 +32,7 @@ namespace ComputerMonitorStockManager.Middlewares
                 });
             });
         }
+
+
     }
 }

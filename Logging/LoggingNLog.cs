@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NLog;
+﻿using NLog;
+
 
 namespace ComputerMonitorStockManager.Logging
 {
@@ -32,7 +29,7 @@ namespace ComputerMonitorStockManager.Logging
         public void Warning(string message)
         {
             logger.Warn(message);
-            //throw new NotImplementedException();
         }
+
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+
 
 namespace ComputerMonitorStockManager.Middlewares
 {
@@ -19,6 +17,7 @@ namespace ComputerMonitorStockManager.Middlewares
             this.next = next;
             this.realm = realm;
         }
+
 
         public async Task Invoke(HttpContext context)
         {
@@ -52,7 +51,9 @@ namespace ComputerMonitorStockManager.Middlewares
 
         public bool IsAuthorized(string username, string password)
         {
-            return username.Equals("test") && password.Equals("test");
+            return username.Equals("test123") && password.Equals("test123");
         }
+
+
     }
 }
