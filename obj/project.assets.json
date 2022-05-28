@@ -2272,6 +2272,66 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "DataAccessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "DomainLayer": "1.0.0",
+          "Microsoft.AspNet.WebApi.Core": "5.2.7",
+          "Microsoft.EntityFrameworkCore": "5.0.15",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.15",
+          "NLog.Web.AspNetCore": "4.14.0",
+          "Swashbuckle.AspNetCore": "5.6.3",
+          "Swashbuckle.AspNetCore.Annotations": "5.6.3",
+          "System.Net.Http": "4.3.4"
+        },
+        "compile": {
+          "bin/placeholder/DataAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataAccessLayer.dll": {}
+        }
+      },
+      "DomainLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "5.2.7",
+          "Microsoft.EntityFrameworkCore": "5.0.15",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.15",
+          "NLog.Web.AspNetCore": "4.14.0",
+          "Swashbuckle.AspNetCore": "5.6.3",
+          "Swashbuckle.AspNetCore.Annotations": "5.6.3",
+          "System.Net.Http": "4.3.4"
+        },
+        "compile": {
+          "bin/placeholder/DomainLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DomainLayer.dll": {}
+        }
+      },
+      "ServiceLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "DataAccessLayer": "1.0.0",
+          "DomainLayer": "1.0.0",
+          "Microsoft.AspNet.WebApi.Core": "5.2.7",
+          "Microsoft.EntityFrameworkCore": "5.0.15",
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.15",
+          "NLog.Web.AspNetCore": "4.14.0",
+          "Swashbuckle.AspNetCore": "5.6.3",
+          "Swashbuckle.AspNetCore.Annotations": "5.6.3",
+          "System.Net.Http": "4.3.4"
+        },
+        "compile": {
+          "bin/placeholder/ServiceLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ServiceLayer.dll": {}
+        }
       }
     }
   },
@@ -7665,6 +7725,21 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "DataAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../DataAccessLayer/DataAccessLayer.csproj",
+      "msbuildProject": "../DataAccessLayer/DataAccessLayer.csproj"
+    },
+    "DomainLayer/1.0.0": {
+      "type": "project",
+      "path": "../DomainLayer/DomainLayer.csproj",
+      "msbuildProject": "../DomainLayer/DomainLayer.csproj"
+    },
+    "ServiceLayer/1.0.0": {
+      "type": "project",
+      "path": "../ServiceLayer/ServiceLayer.csproj",
+      "msbuildProject": "../ServiceLayer/ServiceLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7675,6 +7750,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.15",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.15",
       "NLog.Web.AspNetCore >= 4.14.0",
+      "ServiceLayer >= 1.0.0",
       "Swashbuckle.AspNetCore >= 5.6.3",
       "Swashbuckle.AspNetCore.Annotations >= 5.6.3",
       "System.Net.Http >= 4.3.4"
@@ -7706,7 +7782,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\VLACA\\GIT\\ServiceLayer\\ServiceLayer.csproj": {
+              "projectPath": "C:\\Users\\VLACA\\GIT\\ServiceLayer\\ServiceLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -7313,3 +7313,169 @@ File name: 'NLog.Extended, Culture=neutral, PublicKeyToken=null'
 2022-05-20 20:50:27.8500 Debug FileTarget(Name=logfile): Preparing for new file 'C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-20_log.txt'
 2022-05-20 20:50:27.8827 Debug Creating file appender: C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-20_log.txt
 2022-05-20 20:50:27.8938 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-20_log.txt with allowFileSharedWriting=False
+2022-05-28 14:55:45.3241 Debug ScanAssembly('NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-05-28 14:55:47.1648 Debug Found assembly location directory: 'C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0' (NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c)
+2022-05-28 14:55:47.1749 Debug Auto loading based on NLog-Assembly found location: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0
+2022-05-28 14:55:47.1749 Debug Search for auto loading files in location: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0
+2022-05-28 14:55:47.2281 Debug Start auto loading, location: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0
+2022-05-28 14:55:47.2281 Info Auto loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Extensions.Logging.dll
+2022-05-28 14:55:47.2973 Info Loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Extensions.Logging.dll
+2022-05-28 14:55:48.0576 Info NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 1.7.4.1610. Product version: 1.7.4+e2bffa9e949fb4760d75aca224e78631c063f087. GlobalAssemblyCache: False
+2022-05-28 14:55:48.0576 Debug ScanAssembly('NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-05-28 14:55:48.0652 Info Auto loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Extensions.Logging.dll succeeded!
+2022-05-28 14:55:48.0652 Info Auto loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
+2022-05-28 14:55:48.0652 Info Loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
+2022-05-28 14:55:48.4953 Info NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.14.0.2042. Product version: 4.14.0+18bbcdbd5bd13b4565c32d72e09502b7ca6c71d4. GlobalAssemblyCache: False
+2022-05-28 14:55:48.4953 Debug ScanAssembly('NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c')
+2022-05-28 14:55:48.5120 Info Auto loading assembly file: C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.Web.AspNetCore.dll succeeded!
+2022-05-28 14:55:48.5285 Trace Assembly 'Microsoft.Extensions.Logging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2022-05-28 14:55:48.5285 Trace Assembly 'Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' will be hidden in callsite stacktrace
+2022-05-28 14:55:48.5332 Trace Assembly 'NLog.Extensions.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c' will be hidden in callsite stacktrace
+2022-05-28 14:55:48.5332 Trace Assembly 'NLog.Web.AspNetCore, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c' will be hidden in callsite stacktrace
+2022-05-28 14:55:48.5332 Debug Auto loading done
+2022-05-28 14:55:48.5332 Info Message Template Auto Format enabled
+2022-05-28 14:55:48.7063 Info Loading assembly: NLog.Extended
+2022-05-28 14:55:49.0735 Trace Try find 'NLog.Extended' in current domain
+2022-05-28 14:55:49.0912 Trace Haven't found' 'NLog.Extended' in current domain
+2022-05-28 14:55:49.1245 Warn Error has been raised. Exception: NLog.NLogConfigurationException: Error loading extensions: NLog.Extended
+ ---> System.IO.FileNotFoundException: Could not load file or assembly 'NLog.Extended, Culture=neutral, PublicKeyToken=null'. The system cannot find the file specified.
+File name: 'NLog.Extended, Culture=neutral, PublicKeyToken=null'
+   at System.Reflection.RuntimeAssembly.InternalLoad(ObjectHandleOnStack assemblyName, ObjectHandleOnStack requestingAssembly, StackCrawlMarkHandle stackMark, Boolean throwOnFileNotFound, ObjectHandleOnStack assemblyLoadContext, ObjectHandleOnStack retAssembly)
+   at System.Reflection.RuntimeAssembly.InternalLoad(AssemblyName assemblyName, RuntimeAssembly requestingAssembly, StackCrawlMark& stackMark, Boolean throwOnFileNotFound, AssemblyLoadContext assemblyLoadContext)
+   at System.Reflection.Assembly.Load(String assemblyString)
+   at NLog.Internal.AssemblyHelpers.LoadFromName(String assemblyName)
+   at NLog.Config.LoggingConfigurationParser.ParseExtensionWithAssembly(String assemblyName, String prefix)
+   --- End of inner exception stack trace ---
+2022-05-28 14:55:49.2659 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.2659 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-05-28 14:55:49.3662 Debug Setting 'NLog.LayoutRenderers.Wrappers.UppercaseLayoutRendererWrapper.uppercase' to 'true'
+2022-05-28 14:55:49.3750 Trace Wrapping NLog.LayoutRenderers.LevelLayoutRenderer with NLog.LayoutRenderers.Wrappers.UppercaseLayoutRendererWrapper
+2022-05-28 14:55:49.3750 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.3750 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:49.3750 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.3750 Trace Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2022-05-28 14:55:49.3961 Trace  Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2022-05-28 14:55:49.3961 Trace  Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2022-05-28 14:55:49.3961 Trace   Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.4266 Trace   Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:49.4266 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.4266 Trace Scanning LoggerNameLayoutRenderer 'Layout Renderer: ${logger}'
+2022-05-28 14:55:49.4266 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.4266 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-05-28 14:55:49.5164 Debug Setting 'NLog.Targets.FileTarget.name' to 'logfile'
+2022-05-28 14:55:49.5164 Debug Setting 'NLog.Targets.FileTarget.fileName' to 'C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt'
+2022-05-28 14:55:49.5164 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.5164 Trace Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-05-28 14:55:49.5617 Debug Setting 'NLog.Targets.FileTarget.layout' to '${longdate} ${level:uppercase=true} ${message}'
+2022-05-28 14:55:49.5631 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.5631 Trace Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-05-28 14:55:49.5631 Debug Setting 'NLog.LayoutRenderers.Wrappers.UppercaseLayoutRendererWrapper.uppercase' to 'true'
+2022-05-28 14:55:49.5631 Trace Wrapping NLog.LayoutRenderers.LevelLayoutRenderer with NLog.LayoutRenderers.Wrappers.UppercaseLayoutRendererWrapper
+2022-05-28 14:55:49.5631 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.5631 Trace Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:49.5631 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.5631 Trace Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2022-05-28 14:55:49.5631 Trace  Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2022-05-28 14:55:49.5781 Trace  Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2022-05-28 14:55:49.5781 Trace   Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.5781 Trace   Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:49.5781 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.5781 Trace Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-05-28 14:55:49.5781 Info Adding target FileTarget(Name=logfile)
+2022-05-28 14:55:49.5941 Debug Registered target logfile: NLog.Targets.FileTarget
+2022-05-28 14:55:49.5941 Trace ParseRulesElement
+2022-05-28 14:55:49.7305 Debug Watching path 'C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0' filter 'NLog.config' for changes.
+2022-05-28 14:55:49.7787 Debug --- NLog configuration dump ---
+2022-05-28 14:55:49.7787 Debug Targets:
+2022-05-28 14:55:49.7942 Debug File Target[logfile]
+2022-05-28 14:55:49.7942 Debug Rules:
+2022-05-28 14:55:49.8053 Debug logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] appendTo: [ logfile ]
+2022-05-28 14:55:49.8053 Debug --- End of NLog configuration dump ---
+2022-05-28 14:55:49.8152 Trace FindReachableObject<System.Object>:
+2022-05-28 14:55:49.8152 Trace Scanning LoggingRule 'logNamePattern: (:All) levels: [ Debug Info Warn Error Fatal ] appendTo: [ logfile ]'
+2022-05-28 14:55:49.8152 Trace  Scanning Property Targets 'System.Collections.Generic.List`1[NLog.Targets.Target]' System.Collections.Generic
+2022-05-28 14:55:49.8152 Trace  Scanning FileTarget 'File Target[logfile]'
+2022-05-28 14:55:49.8152 Trace   Scanning Property FileName ''C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt'' NLog.Layouts
+2022-05-28 14:55:49.8152 Trace   Scanning SimpleLayout ''C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt''
+2022-05-28 14:55:49.8287 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.8287 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:49.8287 Trace    Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-05-28 14:55:49.8287 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:49.8287 Trace   Scanning Property Layout ''${longdate} ${level:uppercase=true} ${message}'' NLog.Layouts
+2022-05-28 14:55:49.8287 Trace   Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2022-05-28 14:55:49.8287 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.8433 Trace    Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-05-28 14:55:49.8433 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:49.8433 Trace    Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2022-05-28 14:55:49.8433 Trace     Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2022-05-28 14:55:49.8433 Trace     Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2022-05-28 14:55:49.8433 Trace      Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.8433 Trace      Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:49.8433 Trace    Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:49.8601 Trace    Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-05-28 14:55:49.8601 Trace   Scanning Property LineEnding 'Default' NLog.Targets
+2022-05-28 14:55:49.8750 Trace  Scanning Property ChildRules 'System.Collections.Generic.List`1[NLog.Config.LoggingRule]' System.Collections.Generic
+2022-05-28 14:55:49.8750 Trace  Scanning Property Filters 'System.Collections.Generic.List`1[NLog.Filters.Filter]' System.Collections.Generic
+2022-05-28 14:55:49.8750 Info Validating config: TargetNames=logfile, ConfigItems=14, FilePath=C:\Users\VLACA\GIT\ComputerMonitorStockManager\bin\Debug\net5.0\NLog.config
+2022-05-28 14:55:49.8944 Debug Unused target checking is started... Rule Count: 1, Target Count: 1
+2022-05-28 14:55:49.9201 Debug Unused target checking is completed. Total Rule Count: 1, Total Target Count: 1, Unused Target Count: 0
+2022-05-28 14:55:49.9220 Trace Initializing Layout Renderer: ${message}
+2022-05-28 14:55:49.9220 Trace Initializing Layout Renderer: ${literal}
+2022-05-28 14:55:49.9220 Trace Initializing Layout Renderer: ${level}
+2022-05-28 14:55:49.9220 Trace Initializing SimpleLayout=Layout Renderer: ${level}
+2022-05-28 14:55:49.9489 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:49.9962 Trace Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2022-05-28 14:55:49.9962 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:49.9962 Trace  Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:50.0134 Trace Initializing Layout Renderer: ${uppercase}
+2022-05-28 14:55:50.0153 Trace Initializing Layout Renderer: ${literal}
+2022-05-28 14:55:50.0153 Trace Initializing Layout Renderer: ${longdate}
+2022-05-28 14:55:50.0153 Trace Initializing '${longdate} ${level:uppercase=true} ${message}'
+2022-05-28 14:55:50.0153 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:50.0153 Trace Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2022-05-28 14:55:50.0153 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:50.0153 Trace  Scanning LongDateLayoutRenderer 'Layout Renderer: ${longdate}'
+2022-05-28 14:55:50.0153 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:50.0320 Trace  Scanning UppercaseLayoutRendererWrapper 'Layout Renderer: ${uppercase}'
+2022-05-28 14:55:50.0320 Trace   Scanning Property Inner 'SimpleLayout=Layout Renderer: ${level}' NLog.Layouts
+2022-05-28 14:55:50.0320 Trace   Scanning SimpleLayout 'SimpleLayout=Layout Renderer: ${level}'
+2022-05-28 14:55:50.0320 Trace    Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:50.0320 Trace    Scanning LevelLayoutRenderer 'Layout Renderer: ${level}'
+2022-05-28 14:55:50.0320 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:50.0320 Trace  Scanning MessageLayoutRenderer 'Layout Renderer: ${message}'
+2022-05-28 14:55:50.0479 Trace Initializing Layout Renderer: ${literal}
+2022-05-28 14:55:50.0479 Trace Initializing Layout Renderer: ${shortdate}
+2022-05-28 14:55:50.0479 Trace Initializing Layout Renderer: ${literal}
+2022-05-28 14:55:50.0479 Trace Initializing 'C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt'
+2022-05-28 14:55:50.0479 Trace FindReachableObject<NLog.Internal.IRenderable>:
+2022-05-28 14:55:50.0479 Trace Scanning SimpleLayout ''C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt''
+2022-05-28 14:55:50.0479 Trace  Scanning Property Renderers 'System.Collections.ObjectModel.ReadOnlyCollection`1[NLog.LayoutRenderers.LayoutRenderer]' System.Collections.ObjectModel
+2022-05-28 14:55:50.0479 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:50.0622 Trace  Scanning ShortDateLayoutRenderer 'Layout Renderer: ${shortdate}'
+2022-05-28 14:55:50.0622 Trace  Scanning LiteralLayoutRenderer 'Layout Renderer: ${literal}'
+2022-05-28 14:55:50.0622 Trace Initializing File Target[logfile]
+2022-05-28 14:55:50.0622 Trace FindReachableObject<NLog.Layouts.Layout>:
+2022-05-28 14:55:50.0622 Trace Scanning FileTarget 'File Target[logfile]'
+2022-05-28 14:55:50.0622 Trace  Scanning Property FileName ''C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt'' NLog.Layouts
+2022-05-28 14:55:50.0791 Trace  Scanning SimpleLayout ''C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/${shortdate}_log.txt''
+2022-05-28 14:55:50.0791 Trace  Scanning Property Layout ''${longdate} ${level:uppercase=true} ${message}'' NLog.Layouts
+2022-05-28 14:55:50.0791 Trace  Scanning SimpleLayout ''${longdate} ${level:uppercase=true} ${message}''
+2022-05-28 14:55:50.0791 Trace  Scanning Property LineEnding 'Default' NLog.Targets
+2022-05-28 14:55:50.0791 Trace File Target[logfile] has 2 layouts
+2022-05-28 14:55:50.0791 Trace FileTarget(Name=logfile): Using appenderFactory: NLog.Internal.FileAppenders.RetryingMultiProcessFileAppender+Factory
+2022-05-28 14:55:50.1037 Info Configuration initialized.
+2022-05-28 14:55:50.1037 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2022-05-28 14:55:50.1146 Debug Targets for ComputerMonitorStockManager.Logging.LoggingNLog by level:
+2022-05-28 14:55:50.1146 Debug Trace =>
+2022-05-28 14:55:50.1146 Debug Debug => logfile
+2022-05-28 14:55:50.1265 Debug Info => logfile
+2022-05-28 14:55:50.1265 Debug Warn => logfile
+2022-05-28 14:55:50.1401 Debug Error => logfile
+2022-05-28 14:55:50.1401 Debug Fatal => logfile
+2022-05-28 14:55:50.3197 Debug FileTarget(Name=logfile): Preparing for new file 'C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt'
+2022-05-28 14:55:50.3535 Debug Creating file appender: C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt
+2022-05-28 14:55:50.3658 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt with allowFileSharedWriting=False
+2022-05-28 14:56:51.5081 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt with allowFileSharedWriting=False
+2022-05-28 14:57:01.6858 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt with allowFileSharedWriting=False
+2022-05-28 14:57:11.1739 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt with allowFileSharedWriting=False
+2022-05-28 14:57:23.6238 Trace Opening C:/Users/VLACA/GIT/ComputerMonitorStockManager/ErrorLog/2022-05-28_log.txt with allowFileSharedWriting=False

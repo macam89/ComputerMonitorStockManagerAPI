@@ -1,14 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Configuration;
 using ComputerMonitorStockManager.Middlewares;
 using ComputerMonitorStockManager.Logging;
-using Microsoft.EntityFrameworkCore;
-using ComputerMonitorStockManager.Data;
-using ComputerMonitorStockManager.Interfaces;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer.DBRepositories;
+using ServiceLayer.Services;
+using ServiceLayer.Interfaces;
+
 
 namespace ComputerMonitorStockManager
 {
@@ -24,18 +26,20 @@ namespace ComputerMonitorStockManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
+            services.AddScoped<IMonitorService, MonitorService>();
 
-            services.AddDbContext<StockContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StockManagerDBConnectionString")));
+            services.AddControllers();
+            
             services.AddSingleton<ILogging, LoggingNLog>();
             
             //LIST
-            services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
-            services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
+            //services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
+            //services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
 
             //DB
-            //services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
-            //services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
+            services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
+            services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
 
             services.AddSwaggerGen(c =>
             {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using ComputerMonitorStockManager.Models;
+using DomainLayer.Models;
 using Microsoft.EntityFrameworkCore;
-using ComputerMonitorStockManager.Interfaces;
+using ServiceLayer.Interfaces;
 
 
 namespace ComputerMonitorStockManager.Controllers
@@ -14,10 +14,11 @@ namespace ComputerMonitorStockManager.Controllers
     [ApiController]
     public class ManufacturersController : ControllerBase
     {
-        private readonly IManufacturersRepository _manufacturers;
-        private readonly IMonitorsRepository _monitors;
 
-        public ManufacturersController(IManufacturersRepository manufacturers, IMonitorsRepository monitors)
+        private readonly IManufacturerService _manufacturers;
+        private readonly IMonitorService _monitors;
+
+        public ManufacturersController(IManufacturerService manufacturers, IMonitorService monitors) 
         {
             _manufacturers = manufacturers;
             _monitors = monitors;

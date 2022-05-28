@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ComputerMonitorStockManager.Models;
-using ComputerMonitorStockManager.Interfaces;
+using DomainLayer.Models;
+using ServiceLayer.Interfaces;
+
 
 namespace ComputerMonitorStockManager.Controllers
 {
@@ -13,13 +14,13 @@ namespace ComputerMonitorStockManager.Controllers
     public class MonitorController : ControllerBase
     {
 
-        private readonly IMonitorsRepository _monitors;
-        private readonly IManufacturersRepository _manufacturers;
+        private readonly IManufacturerService _manufacturers;
+        private readonly IMonitorService _monitors;
 
-        public MonitorController(IMonitorsRepository monitors, IManufacturersRepository manufacturers)
+        public MonitorController(IManufacturerService manufacturers, IMonitorService monitors)
         {
-            _monitors = monitors;
             _manufacturers = manufacturers;
+            _monitors = monitors;
         }
 
 
