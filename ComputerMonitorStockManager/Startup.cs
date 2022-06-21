@@ -8,6 +8,7 @@ using ComputerMonitorStockManager.Middlewares;
 using ComputerMonitorStockManager.Logging;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.DBRepositories;
+using DataAccessLayer.ListRepositories;
 using ServiceLayer.Services;
 using ServiceLayer.Interfaces;
 
@@ -30,16 +31,18 @@ namespace ComputerMonitorStockManager
             services.AddScoped<IMonitorService, MonitorService>();
 
             services.AddControllers();
-            
+            //
+            services.AddControllersWithViews();
+            //
             services.AddSingleton<ILogging, LoggingNLog>();
-            
+
             //LIST
-            //services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
-            //services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
+            services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
+            services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
 
             //DB
-            services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
-            services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
+            //services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
+            //services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
 
             services.AddSwaggerGen(c =>
             {
@@ -59,6 +62,7 @@ namespace ComputerMonitorStockManager
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ComputerMonitorStockManager v1"));
             }
 
+
             app.UseHttpsRedirection();
 
             app.ExceptionHandler(logger);
@@ -72,7 +76,10 @@ namespace ComputerMonitorStockManager
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(name: "default",
+               pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
 
 

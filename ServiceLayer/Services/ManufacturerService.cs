@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DataAccessLayer.Interfaces;
 using DomainLayer.Models;
 using ServiceLayer.Interfaces;
@@ -8,10 +9,12 @@ namespace ServiceLayer.Services
     public class ManufacturerService : IManufacturerService
     {
         private IManufacturersRepository _repository;
+        private readonly IMonitorService _monitorService;
 
-        public ManufacturerService(IManufacturersRepository repository)
+        public ManufacturerService(IManufacturersRepository repository, IMonitorService monitorService)
         {
             _repository = repository;
+            _monitorService = monitorService;
         }
 
         public IEnumerable<Manufacturers> GetAllManufacturers()
@@ -29,21 +32,81 @@ namespace ServiceLayer.Services
             return _repository.GetManufacturer(name);
         }
 
-        public Manufacturers AddNewManufacturer(Manufacturers manufacturer)
+        public Dictionary<string, Manufacturers> AddNewManufacturer(Manufacturers manufacturer)
         {
-            return _repository.AddNewManufacturer(manufacturer);
+            var newManufacturer = _repository.AddNewManufacturer(manufacturer);
+            
+            string response;
+            var resultDictionary = new Dictionary<string, Manufacturers>();
+
+            if (newManufacturer == null)
+            {
+                response = ManufacturerEnums.BadRequest.ToString();
+                resultDictionary.Add(response, newManufacturer);
+                return resultDictionary;
+            }
+            
+            response = ManufacturerEnums.Created.ToString();
+            resultDictionary.Add(response, newManufacturer);
+            return resultDictionary;
         }
 
-        public Manufacturers UpdateManufacturer(int id, Manufacturers manufacturer)
+        public Dictionary<string, Manufacturers> UpdateManufacturer(int id, Manufacturers manufacturer)
         {
-            return _repository.UpdateManufacturer(id, manufacturer);
+            var manufacturersExceptUpdatingManufacturer = _repository.GetAllManufacturers().Where(c => c.ManufacturerID != id);
+            var manufacturerWithSameName = _repository.GetManufacturer(manufacturer.Name);
+
+            string response;
+            var resultDictionary = new Dictionary<string, Manufacturers>();
+
+            if (manufacturersExceptUpdatingManufacturer.Contains(manufacturerWithSameName))
+            {
+                response = ManufacturerEnums.BadRequest.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
+
+            var manufacturerForUpdate = _repository.UpdateManufacturer(id, manufacturer);
+
+            if (manufacturerForUpdate != null)
+            {
+                response = ManufacturerEnums.NoContent.ToString();
+                resultDictionary.Add(response, manufacturer);
+                return resultDictionary;
+            }
+            else
+            {
+                response = ManufacturerEnums.NotFound.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
         }
 
         public bool DeleteManufacturer(int id)
         {
-            return _repository.DeleteManufacturer(id);
+            var manufacturer = _repository.GetManufacturer(id);
+            bool deleted = _repository.DeleteManufacturer(id);
+
+            if (deleted == true)
+            {
+                _monitorService.DeleteAllMonitorsOfOneManufacturer(manufacturer.Name);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
+        public enum ManufacturerEnums 
+        {
+            Ok,
+            BadRequest,
+            Created,
+            NoContent,
+            NotFound
+        }
 
     }
 }

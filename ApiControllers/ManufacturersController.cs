@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using DomainLayer.Models;
-using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Interfaces;
 
 
-namespace ComputerMonitorStockManager.Controllers
+namespace ApiControllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class ManufacturersController : ControllerBase
     {
 
         private readonly IManufacturerService _manufacturers;
-        private readonly IMonitorService _monitors;
 
-        public ManufacturersController(IManufacturerService manufacturers, IMonitorService monitors) 
+        public ManufacturersController(IManufacturerService manufacturers)
         {
             _manufacturers = manufacturers;
-            _monitors = monitors;
         }
-
 
         [HttpGet]
         public ActionResult<IEnumerable<Manufacturers>> GetAllManufacturers()
         {
-            var allManufacturers = _manufacturers.GetAllManufacturers();
+            var allManufacturers = _manufacturers.GetAllManufacturers().ToList();
 
             if (allManufacturers == null)
                 return NotFound();
@@ -66,31 +60,28 @@ namespace ComputerMonitorStockManager.Controllers
         [HttpPost]
         public ActionResult<Manufacturers> AddNewManufacturer([FromBody] Manufacturers manufacturer)
         {
-            var newManufacturer = _manufacturers.AddNewManufacturer(manufacturer);
+            var resultDictionary = _manufacturers.AddNewManufacturer(manufacturer);
 
-            if (newManufacturer == null)
+            if (resultDictionary.ContainsKey("BadRequest"))
             {
                 return BadRequest("Manufacturer already exist.");
             }
 
+            Manufacturers newManufacturer = resultDictionary.GetValueOrDefault("Created");
             return CreatedAtAction("GetManufacturerById", new { id = newManufacturer.ManufacturerID }, newManufacturer);
-
         }
 
 
         [HttpPut("{id}")]
         public ActionResult<Manufacturers> UpdateManufacturerWithSpecifiedId(int id, Manufacturers manufacturer)
         {
-            var manufacturersExceptUpdatingManufacturer = _manufacturers.GetAllManufacturers().Where(c => c.ManufacturerID != id);
-            var manufacturerWithSameName = _manufacturers.GetManufacturer(manufacturer.Name);
-            if (manufacturersExceptUpdatingManufacturer.Contains(manufacturerWithSameName))
+            var resultDictionary = _manufacturers.UpdateManufacturer(id, manufacturer);
+
+            if (resultDictionary.ContainsKey("BadRequest"))
             {
                 return BadRequest("Manufacturer with that name already exist.");
             }
-
-            var manufacturerForUpdate = _manufacturers.UpdateManufacturer(id, manufacturer);
-
-            if (manufacturerForUpdate != null)
+            else if (resultDictionary.ContainsKey("NoContent"))
             {
                 return NoContent();
             }
@@ -98,21 +89,17 @@ namespace ComputerMonitorStockManager.Controllers
             {
                 return NotFound("Manufacturer not found.");
             }
-
         }
 
 
         [HttpDelete("{id}")]
         public ActionResult DeleteManufacturerWithSpecifiedId(int id)
         {
-            var manufacturer = _manufacturers.GetManufacturer(id);
             bool deleted = _manufacturers.DeleteManufacturer(id);
 
-            if (deleted == true)
+            if (deleted)
             {
-                _monitors.DeleteAllMonitorsOfOneManufacturer(manufacturer.Name);
-
-                return NoContent();
+                return Ok();
             }
             else
             {

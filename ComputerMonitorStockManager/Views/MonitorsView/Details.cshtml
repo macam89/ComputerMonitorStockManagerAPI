@@ -1,0 +1,115 @@
+﻿@model DomainLayer.Models.Monitors
+
+<head>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #006600;
+            background-color: #f1f1c1;
+        }
+
+        li {
+            float: left;
+        }
+
+            li a {
+                display: block;
+                color: #666;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                li a:hover:not(.active) {
+                    color: white;
+                    background-color: #006600;
+                }
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li><a href="@Url.Action("Index","Home")">Home</a></li>
+        <li><a href="@Url.Action("Manufacturers","ManufacturersView")">Manufacturers</a></li>
+        <li><a href="@Url.Action("Monitors","MonitorsView")">Monitors</a></li>
+    </ul>
+
+</body>
+
+@{
+    ViewData["Title"] = "MonitorDetails";
+}
+
+<div>
+    <h1>Monitor details</h1>
+    <hr />
+</div>
+
+<style>
+    table, th, td {
+        border: 1px solid #006600;
+        border-collapse: collapse;
+    }
+
+    th {
+        padding: 8px;
+        text-align: left;
+    }
+
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    table.monitor {
+        width: 50%;
+        background-color: #f1f1c1;
+    }
+</style>
+
+<body>
+    <table class="monitor">
+        <tr>
+            <th>@Html.DisplayName("ID:")</th>
+            <td>@Html.DisplayFor(model => model.MonitorID)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Model:")</th>
+            <td>@Html.DisplayFor(model => model.Model)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Size:")</th>
+            <td>@Html.DisplayFor(model => model.Size)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Color:")</th>
+            <td>@Html.DisplayFor(model => model.Color)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Price:")</th>
+            <td>@Html.DisplayFor(model => model.Price)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Manufacturer:")</th>
+            <td>@Html.DisplayFor(model => model.ManufacturerName)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Resolution:")</th>
+            <td>@Html.DisplayFor(model => model.Resolution)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayName("Full HD:")</th>
+            <td>@Html.DisplayFor(model => model.IsFullHD)</td>
+        </tr>
+    </table>
+</body>
+
+<div>
+    <hr />
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MonitorID }) ||
+    @Html.ActionLink("Delete", "Delete", new { id = Model.MonitorID }) ||
+    <a href="@Url.Action("Monitors","MonitorsView")">Back to list of monitors</a>
+</div>

@@ -8,8 +8,8 @@ namespace ServiceLayer.Interfaces
         IEnumerable<Manufacturers> GetAllManufacturers();
         Manufacturers GetManufacturer(int id);
         Manufacturers GetManufacturer(string name);
-        Manufacturers AddNewManufacturer(Manufacturers m);
-        Manufacturers UpdateManufacturer(int id, Manufacturers m);
+        Dictionary<string, Manufacturers> AddNewManufacturer(Manufacturers m);
+        Dictionary<string, Manufacturers> UpdateManufacturer(int id, Manufacturers m);
         bool DeleteManufacturer(int id);
 
     }

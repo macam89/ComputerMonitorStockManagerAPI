@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DomainLayer.Models;
 using ServiceLayer.Interfaces;
 
 
-namespace ComputerMonitorStockManager.Controllers
+namespace ApiControllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MonitorController : ControllerBase
     {
 
-        private readonly IManufacturerService _manufacturers;
         private readonly IMonitorService _monitors;
 
-        public MonitorController(IManufacturerService manufacturers, IMonitorService monitors)
+        public MonitorController(IMonitorService monitors)
         {
-            _manufacturers = manufacturers;
             _monitors = monitors;
         }
 
@@ -69,58 +65,44 @@ namespace ComputerMonitorStockManager.Controllers
         [HttpPost]
         public ActionResult<Monitors> AddNewMonitor([FromBody] Monitors monitor)
         {
-            var existingManufacturer = _manufacturers.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
+            var resultDictionary = _monitors.AddNewMonitor(monitor);
 
-            if (existingManufacturer == null)
+            if (resultDictionary.ContainsKey("BadRequest1"))
             {
                 return BadRequest("Manufacturer does not exist.");
             }
+            else if (resultDictionary.ContainsKey("BadRequest2"))
+            {
+                return BadRequest("Model already exist.");
+            }
             else
             {
-                var newMonitor = _monitors.AddNewMonitor(monitor);
-
-                if (newMonitor == null)
-                {
-                    return BadRequest("Model already exist.");
-                }
-
-                return CreatedAtAction("GetMonitorById", new { id = newMonitor.MonitorID}, newMonitor);
+                Monitors newMonitor = resultDictionary.GetValueOrDefault("Created");
+                return CreatedAtAction("GetMonitorById", new { id = newMonitor.MonitorID }, newMonitor);
             }
-
         }
 
 
         [HttpPut("{id}")]
         public ActionResult<Monitors> UpdateMonitorWithSpecifiedId(int id, Monitors monitor)
         {
-            var existingMonitor = _monitors.GetMonitor(id);
-            if (existingMonitor == null) 
+            var resultDictionary = _monitors.UpdateMonitor(id, monitor);
+
+            if (resultDictionary.ContainsKey("NotFound"))
             {
                 return NotFound("Monitor not found.");
             }
-
-            var monitorsExceptUpdatingMonitor = _monitors.GetAllMonitors().Where(c => c.MonitorID != id);
-            var monitorWithSameModel = _monitors.GetMonitor(monitor.Model);
-            if (monitorsExceptUpdatingMonitor.Contains(monitorWithSameModel))
+            else if (resultDictionary.ContainsKey("BadRequest1"))
             {
                 return BadRequest("That model aleady exist.");
             }
-
-            var manufacturer = _manufacturers.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
-            if (manufacturer == null)
+            else if (resultDictionary.ContainsKey("BadRequest2"))
             {
                 return BadRequest("Manufacturer does not exist.");
             }
-
-            existingMonitor = _monitors.UpdateMonitor(id, monitor);
-
-            if (existingMonitor != null)
-            {
-                return NoContent();
-            }
             else
             {
-                return NotFound("Monitor not found.");
+                return NoContent();
             }
         }
 
@@ -130,9 +112,9 @@ namespace ComputerMonitorStockManager.Controllers
         {
             bool deleted = _monitors.DeleteMonitor(id);
 
-            if (deleted == true)
+            if (deleted)
             {
-                return NoContent();
+                return Ok();
             }
             else
             {
@@ -146,9 +128,9 @@ namespace ComputerMonitorStockManager.Controllers
         {
             bool deleted = _monitors.DeleteAllMonitorsOfOneManufacturer(manufacturerName);
 
-            if (deleted == true)
+            if (deleted)
             {
-                return NoContent();
+                return Ok();
             }
             else
             {

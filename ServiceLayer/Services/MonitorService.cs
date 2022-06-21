@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DataAccessLayer.Interfaces;
 using DomainLayer.Models;
 using ServiceLayer.Interfaces;
@@ -8,10 +9,12 @@ namespace ServiceLayer.Services
     public class MonitorService : IMonitorService
     {
         private IMonitorsRepository _repository;
+        private IManufacturersRepository _manufacturersRepository;
 
-        public MonitorService(IMonitorsRepository repository)
+        public MonitorService(IMonitorsRepository repository, IManufacturersRepository manufacturersRepository)
         {
             _repository = repository;
+            _manufacturersRepository = manufacturersRepository;
         }
 
         public IEnumerable<Monitors> GetAllMonitors()
@@ -29,14 +32,83 @@ namespace ServiceLayer.Services
             return _repository.GetMonitor(model);
         }
 
-        public Monitors AddNewMonitor(Monitors monitor)
+        public Dictionary<string, Monitors> AddNewMonitor(Monitors monitor)
         {
-            return _repository.AddNewMonitor(monitor);
+            var existingManufacturer = _manufacturersRepository.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
+            
+            string response;
+            var resultDictionary = new Dictionary<string, Monitors>();
+
+            if (existingManufacturer == null)
+            {
+                response = MonitorEnums.BadRequest1.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
+            else
+            {
+                var newMonitor = _repository.AddNewMonitor(monitor);
+
+                if (newMonitor == null)
+                {
+                    response = MonitorEnums.BadRequest2.ToString();
+                    resultDictionary.Add(response, null);
+                    return resultDictionary;
+                }
+
+                response = MonitorEnums.Created.ToString();
+                resultDictionary.Add(response, newMonitor);
+                return resultDictionary;
+            }
         }
 
-        public Monitors UpdateMonitor(int id, Monitors monitor)
+        public Dictionary<string, Monitors> UpdateMonitor(int id, Monitors monitor)
         {
-            return _repository.UpdateMonitor(id, monitor);
+            var existingMonitor = _repository.GetMonitor(id);
+            
+            string response;
+            var resultDictionary = new Dictionary<string, Monitors>();
+
+            if (existingMonitor == null)
+            {
+                response = MonitorEnums.NotFound.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
+
+            var monitorsExceptUpdatingMonitor = _repository.GetAllMonitors().Where(c => c.MonitorID != id);
+            var monitorWithSameModel = _repository.GetMonitor(monitor.Model);
+
+            if (monitorsExceptUpdatingMonitor.Contains(monitorWithSameModel))
+            {
+                response = MonitorEnums.BadRequest1.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
+
+            var manufacturer = _manufacturersRepository.GetAllManufacturers().Where(g => g.Name.ToUpper() == monitor.ManufacturerName.ToUpper()).FirstOrDefault();
+            
+            if (manufacturer == null)
+            {
+                response = MonitorEnums.BadRequest2.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
+
+            existingMonitor = _repository.UpdateMonitor(id, monitor);
+
+            if (existingMonitor != null)
+            {
+                response = MonitorEnums.NoContent.ToString();
+                resultDictionary.Add(response, existingMonitor);
+                return resultDictionary;
+            }
+            else
+            {
+                response = MonitorEnums.NotFound.ToString();
+                resultDictionary.Add(response, null);
+                return resultDictionary;
+            }
         }
 
         public bool DeleteMonitor(int id)
@@ -49,6 +121,14 @@ namespace ServiceLayer.Services
             return _repository.DeleteAllMonitorsOfOneManufacturer(manufacturerName);
         }
 
+        public enum MonitorEnums
+        {
+            BadRequest1,
+            BadRequest2,
+            Created,
+            NoContent,
+            NotFound
+        }
 
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DomainLayer.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace DataAccessLayer.StockDBContext
 {
     public class StockContext : DbContext
     {
 
-        private readonly string _connectionString = "Server=DESKTOP-HRI1QQQ;Database=StockManagerDB;Trusted_Connection=True;MultipleActiveResultSets=true";
+        public static string _connectionString; 
+
 
         public StockContext()
         {
@@ -20,7 +22,22 @@ namespace DataAccessLayer.StockDBContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            if (string.IsNullOrEmpty(_connectionString)) 
+            {
+                ReadConnectionString();
+            }
+
             optionsBuilder.UseSqlServer(_connectionString);
+        }
+
+
+        private static void ReadConnectionString() 
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            _connectionString = configuration.GetConnectionString("StockManagerDBConnectionString");
         }
 
 
