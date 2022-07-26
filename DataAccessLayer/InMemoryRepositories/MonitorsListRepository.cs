@@ -4,7 +4,7 @@ using DataAccessLayer.Interfaces;
 using DomainLayer.Models;
 
 
-namespace DataAccessLayer.ListRepositories
+namespace DataAccessLayer.InMemoryRepositories
 {
     public class MonitorsListRepository : IMonitorsRepository
     {

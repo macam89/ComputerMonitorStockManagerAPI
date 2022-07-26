@@ -41,7 +41,7 @@ namespace ServiceLayer.Services
 
             if (existingManufacturer == null)
             {
-                response = MonitorEnums.BadRequest1.ToString();
+                response = MonitorEnums.ManufacturerNotExist.ToString();
                 resultDictionary.Add(response, null);
                 return resultDictionary;
             }
@@ -51,7 +51,7 @@ namespace ServiceLayer.Services
 
                 if (newMonitor == null)
                 {
-                    response = MonitorEnums.BadRequest2.ToString();
+                    response = MonitorEnums.ModelAlreadyExist.ToString();
                     resultDictionary.Add(response, null);
                     return resultDictionary;
                 }
@@ -77,11 +77,11 @@ namespace ServiceLayer.Services
             }
 
             var monitorsExceptUpdatingMonitor = _repository.GetAllMonitors().Where(c => c.MonitorID != id);
-            var monitorWithSameModel = _repository.GetMonitor(monitor.Model);
+            var monitorWithSameModel = monitorsExceptUpdatingMonitor.Where(m => m.Model.ToUpper() == monitor.Model.ToUpper()).FirstOrDefault();
 
-            if (monitorsExceptUpdatingMonitor.Contains(monitorWithSameModel))
+            if (monitorWithSameModel != null)
             {
-                response = MonitorEnums.BadRequest1.ToString();
+                response = MonitorEnums.ModelAlreadyExist.ToString();
                 resultDictionary.Add(response, null);
                 return resultDictionary;
             }
@@ -90,7 +90,7 @@ namespace ServiceLayer.Services
             
             if (manufacturer == null)
             {
-                response = MonitorEnums.BadRequest2.ToString();
+                response = MonitorEnums.ManufacturerNotExist.ToString();
                 resultDictionary.Add(response, null);
                 return resultDictionary;
             }
@@ -123,8 +123,8 @@ namespace ServiceLayer.Services
 
         public enum MonitorEnums
         {
-            BadRequest1,
-            BadRequest2,
+            ManufacturerNotExist,
+            ModelAlreadyExist,
             Created,
             NoContent,
             NotFound

@@ -42,7 +42,7 @@ namespace ServiceLayer.Services
             if (newManufacturer == null)
             {
                 response = ManufacturerEnums.BadRequest.ToString();
-                resultDictionary.Add(response, newManufacturer);
+                resultDictionary.Add(response, null);
                 return resultDictionary;
             }
             
@@ -54,12 +54,12 @@ namespace ServiceLayer.Services
         public Dictionary<string, Manufacturers> UpdateManufacturer(int id, Manufacturers manufacturer)
         {
             var manufacturersExceptUpdatingManufacturer = _repository.GetAllManufacturers().Where(c => c.ManufacturerID != id);
-            var manufacturerWithSameName = _repository.GetManufacturer(manufacturer.Name);
+            var manufacturerWithSameName = manufacturersExceptUpdatingManufacturer.Where(m => m.Name.ToUpper() == manufacturer.Name.ToUpper()).FirstOrDefault();
 
             string response;
             var resultDictionary = new Dictionary<string, Manufacturers>();
 
-            if (manufacturersExceptUpdatingManufacturer.Contains(manufacturerWithSameName))
+            if (manufacturerWithSameName != null)
             {
                 response = ManufacturerEnums.BadRequest.ToString();
                 resultDictionary.Add(response, null);

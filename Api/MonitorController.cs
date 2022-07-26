@@ -5,7 +5,7 @@ using DomainLayer.Models;
 using ServiceLayer.Interfaces;
 
 
-namespace ApiControllers
+namespace Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -67,11 +67,11 @@ namespace ApiControllers
         {
             var resultDictionary = _monitors.AddNewMonitor(monitor);
 
-            if (resultDictionary.ContainsKey("BadRequest1"))
+            if (resultDictionary.ContainsKey("ManufacturerNotExist"))
             {
                 return BadRequest("Manufacturer does not exist.");
             }
-            else if (resultDictionary.ContainsKey("BadRequest2"))
+            else if (resultDictionary.ContainsKey("ModelAlreadyExist"))
             {
                 return BadRequest("Model already exist.");
             }
@@ -92,11 +92,11 @@ namespace ApiControllers
             {
                 return NotFound("Monitor not found.");
             }
-            else if (resultDictionary.ContainsKey("BadRequest1"))
+            else if (resultDictionary.ContainsKey("ModelAlreadyExist"))
             {
                 return BadRequest("That model aleady exist.");
             }
-            else if (resultDictionary.ContainsKey("BadRequest2"))
+            else if (resultDictionary.ContainsKey("ManufacturerNotExist"))
             {
                 return BadRequest("Manufacturer does not exist.");
             }

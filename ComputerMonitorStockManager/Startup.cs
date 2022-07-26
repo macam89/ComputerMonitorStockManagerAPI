@@ -8,7 +8,7 @@ using ComputerMonitorStockManager.Middlewares;
 using ComputerMonitorStockManager.Logging;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.DBRepositories;
-using DataAccessLayer.ListRepositories;
+using DataAccessLayer.InMemoryRepositories;
 using ServiceLayer.Services;
 using ServiceLayer.Interfaces;
 
@@ -27,22 +27,22 @@ namespace ComputerMonitorStockManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            
+            services.AddControllersWithViews();
+
             services.AddScoped<IManufacturerService, ManufacturerService>();
             services.AddScoped<IMonitorService, MonitorService>();
-
-            services.AddControllers();
-            //
-            services.AddControllersWithViews();
-            //
+            
             services.AddSingleton<ILogging, LoggingNLog>();
 
             //LIST
-            services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
-            services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
+            //services.AddSingleton<IMonitorsRepository, MonitorsListRepository>();
+            //services.AddSingleton<IManufacturersRepository, ManufacturersListRepository>();
 
             //DB
-            //services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
-            //services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
+            services.AddSingleton<IMonitorsRepository, MonitorsDBRepository>();
+            services.AddSingleton<IManufacturersRepository, ManufacturersDBRepository>();
 
             services.AddSwaggerGen(c =>
             {
@@ -61,7 +61,6 @@ namespace ComputerMonitorStockManager
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ComputerMonitorStockManager v1"));
             }
-
 
             app.UseHttpsRedirection();
 

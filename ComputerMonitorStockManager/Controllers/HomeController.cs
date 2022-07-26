@@ -3,6 +3,8 @@
 
 namespace ComputerMonitorStockManager.Controllers
 {
+    
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
 

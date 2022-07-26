@@ -6,6 +6,8 @@ using ServiceLayer.Interfaces;
 
 namespace ComputerMonitorStockManager.Controllers
 {
+    
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ManufacturersViewController : Controller
     {
         private readonly IManufacturerService _manufacturers;
@@ -51,7 +53,7 @@ namespace ComputerMonitorStockManager.Controllers
                 ModelState.AddModelError(string.Empty, "Manufacturer already exist.");
                 return View();
             }
-
+            
             Manufacturers newManufacturer = resultDictionary.GetValueOrDefault("Created");
             return RedirectToAction("Details", "ManufacturersView", new { id = newManufacturer.ManufacturerID });
         }

@@ -5,7 +5,7 @@ using DomainLayer.Models;
 using ServiceLayer.Interfaces;
 
 
-namespace ApiControllers
+namespace Api
 {
     [Route("api/[controller]")]
     [ApiController]

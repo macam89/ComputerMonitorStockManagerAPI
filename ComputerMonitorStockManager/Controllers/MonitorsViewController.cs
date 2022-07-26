@@ -6,6 +6,8 @@ using ServiceLayer.Interfaces;
 
 namespace ComputerMonitorStockManager.Controllers
 {
+    
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MonitorsViewController : Controller
     {
         private readonly IMonitorService _monitors;
@@ -46,12 +48,12 @@ namespace ComputerMonitorStockManager.Controllers
         {
             var resultDictionary = _monitors.AddNewMonitor(monitor);
 
-            if (resultDictionary.ContainsKey("BadRequest1"))
+            if (resultDictionary.ContainsKey("ManufacturerNotExist"))
             {
                 ModelState.AddModelError(string.Empty, "Manufacturer does not exist.");
                 return View();
             }
-            else if (resultDictionary.ContainsKey("BadRequest2"))
+            else if (resultDictionary.ContainsKey("ModelAlreadyExist"))
             {
                 ModelState.AddModelError(string.Empty, "Model already exist.");
                 return View();
@@ -83,12 +85,12 @@ namespace ComputerMonitorStockManager.Controllers
                 ModelState.AddModelError(string.Empty, "Monitor not found.");
                 return View();
             }
-            else if (resultDictionary.ContainsKey("BadRequest1"))
+            else if (resultDictionary.ContainsKey("ModelAlreadyExist"))
             {
                 ModelState.AddModelError(string.Empty, "That model aleady exist.");
                 return View();
             }
-            else if (resultDictionary.ContainsKey("BadRequest2"))
+            else if (resultDictionary.ContainsKey("ManufacturerNotExist"))
             {
                 ModelState.AddModelError(string.Empty, "Manufacturer does not exist.");
                 return View();
