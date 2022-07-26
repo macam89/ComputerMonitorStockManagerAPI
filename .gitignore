@@ -1,0 +1,11 @@
+Api/bin/
+Api/obj/
+ComputerMonitorStockManager/bin/
+ComputerMonitorStockManager/obj/
+DataAccessLayer/bin/
+DataAccessLayer/obj/
+DomainLayer/bin/
+DomainLayer/obj/
+ServiceLayer/bin/
+ServiceLayer/obj/
+ComputerMonitorStockManager/.vs/
