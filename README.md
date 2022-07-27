@@ -2,6 +2,7 @@
 
 This project represent simple Web API with MVC through example of computer monitors stock. 
 Idea was to create Web API for manage two models - Monitors and Manufacturers.
+
 First step was to create static lists of monitors and manufacturers, and manipulate them 
 using controllers HTTP methods (Get, Post, Put, Delete) and Swagger tools. Next step was 
 understanding definition of pipeline and middleware; implementing error handler and 
