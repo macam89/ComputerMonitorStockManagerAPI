@@ -9,4 +9,4 @@ understanding definition of pipeline and middleware; implementing error handler 
 logging with NLog and Basic authorization middleware and set it into pipeline. After this point, 
 project is expanded with MS SQL data base, appropriate repositories and interfaces, 
 StockContex class using Entity Framework DBContext and Singleton services. 
-Project was refactoring with Onion architecture and expand with MVC controllers and views. 
+Project was refactored with Onion architecture and expanded with MVC controllers and views. 
